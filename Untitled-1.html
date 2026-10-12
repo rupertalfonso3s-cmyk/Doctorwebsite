@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MindCare Match</title>
+    <style>
+      :root {
+        --bg: #f5f7ff;
+        --panel: #ffffff;
+        --primary: #4f46e5;
+        --primary-dark: #312e81;
+        --accent: #a78bfa;
+        --text: #1f2937;
+        --muted: #6b7280;
+        --border: #e5e7eb;
+        --success: #16a34a;
+        --soft: #eef2ff;
+      }
+
+      * { box-sizing: border-box; }
+
+      html { scroll-behavior: smooth; }
+
+      body {
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        background: linear-gradient(180deg, #f5f7ff 0%, #ffffff 100%);
+        color: var(--text);
+      }
+
+      a { text-decoration: none; color: inherit; }
+      img { max-width: 100%; display: block; }
+
+      .topbar {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        background: rgba(255, 255, 255, 0.94);
+        backdrop-filter: blur(8px);
+        border-bottom: 1px solid rgba(229, 231, 235, 0.8);
+      }
+
+      .nav {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 18px 24px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 20px;
+      }
+
+      .brand {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--primary-dark);
+      }
+
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+
+      .nav-btn {
+        border: 1px solid var(--border);
+        background: white;
+        color: var(--text);
+        padding: 10px 16px;
+        border-radius: 999px;
+        font-weight: 600;
+        cursor: pointer;
+      }
+
+      .nav-btn.primary {
+        background: var(--primary);
+        color: white;
+        border-color: var(--primary);
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 32px 24px 72px;
+      }
+
+      .hero {
+        display: grid;
+        grid-template-columns: 1.1fr 0.9fr;
+        gap: 40px;
+        align-items: center;
+        padding: 40px 0 20px;
+      }
+
+      .eyebrow {
+        display: inline-block;
+        background: #e0e7ff;
+        color: var(--primary);
+        border-radius: 999px;
+        padding: 8px 14px;
+        font-size: 0.85rem;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+      }
+
+      h1 {
+        font-size: clamp(2.4rem, 5vw, 4rem);
+        line-height: 1.08;
+        margin: 18px 0 18px;
+      }
+
+      .hero-copy p {
+        margin: 0 0 28px;
+        color: var(--muted);
+        font-size: 1.08rem;
+        line-height: 1.7;
+        max-width: 620px;
+      }
+
+      .cta-row {
+        display: flex;
+        gap: 16px;
+        flex-wrap: wrap;
+      }
+
+      .primary-btn, .secondary-btn {
+        border: none;
+        border-radius: 14px;
+        padding: 15px 22px;
+        font-size: 1rem;
+        font-weight: 700;
+        cursor: pointer;
+      }
+
+      .primary-btn {
+        background: linear-gradient(135deg, var(--primary), var(--accent));
+        color: white;
+      }
+
+      .secondary-btn {
+        background: #f3f4f6;
+        color: var(--text);
+      }
+
+      .doctor-visual {
+        position: relative;
+        min-height: 460px;
+      }
+
+      .doctor-card {
+        position: absolute;
+        width: 230px;
+        border-radius: 22px;
+        overflow: hidden;
+        background: white;
+        box-shadow: 0 18px 40px rgba(79, 70, 229, 0.12);
+        border: 1px solid rgba(229, 231, 235, 0.9);
+      }
+
+      .doctor-card img {
+        width: 100%;
+        height: 240px;
+        object-fit: cover;
+      }
+
+      .doctor-card .doctor-info {
+        padding: 14px 16px 18px;
+      }
+
+      .doctor-card h3 {
+        margin: 0 0 6px;
+        font-size: 1.05rem;
+      }
+
+      .doctor-card p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 0.9rem;
+      }
+
+      .doctor-one { top: 30px; left: 26px; }
+      .doctor-two { top: 120px; right: 10px; }
+      .doctor-three { bottom: 20px; left: 120px; }
+
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 18px;
+        padding-top: 18px;
+      }
+
+      .stat {
+        background: white;
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        padding: 24px 20px;
+        box-shadow: 0 12px 30px rgba(15, 23, 42, 0.04);
+      }
+
+      .stat strong {
+        font-size: 1.8rem;
+        display: block;
+        margin-bottom: 8px;
+      }
+
+      .section {
+        padding-top: 72px;
+      }
+
+      .section-header {
+        margin-bottom: 20px;
+      }
+
+      .section-header h2 {
+        font-size: clamp(2rem, 3vw, 2.5rem);
+        margin: 0 0 10px;
+      }
+
+      .section-header p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.7;
+      }
+
+      .about-grid {
+        display: grid;
+        grid-template-columns: 1.1fr 0.9fr;
+        gap: 30px;
+        align-items: center;
+      }
+
+      .about-panel {
+        background: linear-gradient(135deg, #eef2ff, #f8fafc);
+        border: 1px solid var(--border);
+        border-radius: 22px;
+        padding: 28px;
+      }
+
+      .about-panel ul {
+        margin: 22px 0 0;
+        padding-left: 18px;
+        color: var(--muted);
+        line-height: 2;
+      }
+
+      .about-graphic {
+        border-radius: 22px;
+        overflow: hidden;
+        height: 420px;
+        border: 1px solid var(--border);
+      }
+
+      .about-graphic img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .survey-wrap {
+        background: linear-gradient(180deg, #f8faff, #eef2ff);
+        border: 1px solid var(--border);
+        border-radius: 24px;
+        padding: 30px;
+      }
+
+      .survey-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 18px 24px;
+      }
+
+      .question {
+        background: white;
+        border-radius: 18px;
+        padding: 18px 18px 14px;
+        border: 1px solid var(--border);
+      }
+
+      .question p {
+        font-size: 1rem;
+        font-weight: 700;
+        margin: 0 0 14px;
+      }
+
+      .options {
+        display: grid;
+        gap: 8px;
+      }
+
+      .option {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: var(--text);
+        font-size: 0.96rem;
+      }
+
+      .option input {
+        accent-color: var(--primary);
+      }
+
+      .survey-actions {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 22px;
+      }
+
+      .results {
+        display: none;
+        margin-top: 32px;
+      }
+
+      .results.show {
+        display: block;
+      }
+
+      .results-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 22px;
+      }
+
+      .doctor-card-large {
+        background: white;
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 14px 30px rgba(15, 23, 42, 0.04);
+      }
+
+      .doctor-card-large img {
+        width: 100%;
+        height: 220px;
+        object-fit: cover;
+      }
+
+      .doctor-card-large .content {
+        padding: 18px 18px 20px;
+      }
+
+      .doctor-card-large h3 {
+        margin: 0 0 6px;
+        font-size: 1.3rem;
+      }
+
+      .specialty {
+        margin: 0 0 12px;
+        color: var(--primary);
+        font-weight: 700;
+      }
+
+      .match {
+        margin: 0 0 12px;
+        color: var(--muted);
+        line-height: 1.6;
+      }
+
+      .needs {
+        display: inline-block;
+        background: #ecfeff;
+        color: #0f766e;
+        border-radius: 999px;
+        padding: 7px 10px;
+        font-size: 0.76rem;
+        font-weight: 700;
+        margin-bottom: 14px;
+      }
+
+      .doctor-card-large button {
+        width: 100%;
+        border: none;
+        background: var(--primary);
+        color: white;
+        border-radius: 12px;
+        padding: 12px 14px;
+        font-weight: 700;
+        cursor: pointer;
+      }
+
+      .schedule {
+        background: white;
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        padding: 24px;
+        margin-top: 28px;
+      }
+
+      .schedule h3 {
+        margin-top: 0;
+      }
+
+      .days {
+        display: grid;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: 12px;
+        margin-top: 18px;
+      }
+
+      .day {
+        background: #f8fafc;
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 14px 12px;
+      }
+
+      .day strong {
+        display: block;
+        margin-bottom: 8px;
+      }
+
+      .day span {
+        color: var(--muted);
+        font-size: 0.9rem;
+      }
+
+      .contacts {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 20px;
+      }
+
+      .contact-card {
+        background: white;
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        padding: 24px 20px;
+      }
+
+      .contact-card h3 {
+        margin-top: 0;
+      }
+
+      .contact-card p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.7;
+      }
+
+      @media (max-width: 900px) {
+        .hero,
+        .about-grid,
+        .results-grid,
+        .contacts {
+          grid-template-columns: 1fr;
+        }
+
+        .survey-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .doctor-visual {
+          min-height: 420px;
+        }
+      }
+
+      @media (max-width: 600px) {
+        .nav {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .stats {
+          grid-template-columns: 1fr;
+        }
+
+        .days {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="topbar">
+      <nav class="nav">
+        <div class="brand">MindCare Match</div>
+        <div class="nav-links">
+          <a class="nav-btn primary" href="#home">Home</a>
+          <a class="nav-btn" href="#about">About</a>
+          <a class="nav-btn" href="#doctors">Doctors</a>
+          <a class="nav-btn" href="#contact">Contacts</a>
+        </div>
+      </nav>
+    </header>
+
+    <main id="home" class="container">
+      <section class="hero">
+        <div class="hero-copy">
+          <span class="eyebrow">Care that fits your needs</span>
+          <h1>Your mental and physical health, matched to the right specialist.</h1>
+          <p>
+            Start with a short health survey to understand your current mental wellness,
+            general health, and support needs. Then we’ll recommend doctors who match
+            your care goals and availability.
+          </p>
+          <div class="cta-row">
+            <button class="primary-btn" onclick="document.getElementById('survey').scrollIntoView({behavior:'smooth'})">Take the survey</button>
+            <a class="secondary-btn" href="#doctors">View doctors</a>
+          </div>
+        </div>
+
+        <div class="doctor-visual" aria-label="Doctor team photos">
+          <div class="doctor-card doctor-one">
+            <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=800&q=80" alt="Doctor 1" />
+            <div class="doctor-info">
+              <h3>Dr. Elena Park</h3>
+              <p>Psychiatry • Anxiety Care</p>
+            </div>
+          </div>
+
+          <div class="doctor-card doctor-two">
+            <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&w=800&q=80" alt="Doctor 2" />
+            <div class="doctor-info">
+              <h3>Dr. Noah Brooks</h3>
+              <p>Family Medicine • Wellness</p>
+            </div>
+          </div>
+
+          <div class="doctor-card doctor-three">
+            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=80" alt="Doctor 3" />
+            <div class="doctor-info">
+              <h3>Dr. Aisha Ross</h3>
+              <p>Therapy • Stress Recovery</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="stats" aria-label="website statistics">
+        <div class="stat">
+          <strong>1200+</strong>
+          <span>Patients supported</span>
+        </div>
+        <div class="stat">
+          <strong>24/7</strong>
+          <span>Online booking access</span>
+        </div>
+        <div class="stat">
+          <strong>15</strong>
+          <span>Specialists available</span>
+        </div>
+      </section>
+
+      <section id="about" class="section">
+        <div class="section-header">
+          <h2>About MindCare Match</h2>
+          <p>We help patients connect to the right care by combining mental health and general health needs in one guided process.</p>
+        </div>
+
+        <div class="about-grid">
+          <div class="about-panel">
+            <p>
+              Our website makes it easier to understand what kind of support you need and which doctors can help most effectively.
+              After answering a brief survey, patients receive a personalized list of care options, including doctor specialties,
+              treatment goals, and scheduling availability.
+            </p>
+            <ul>
+              <li>Quick self-check for mental health and general well-being</li>
+              <li>Doctor recommendations based on patient needs</li>
+              <li>Availability and appointment scheduling overview</li>
+              <li>Support for stress, anxiety, sleep, and physical wellness</li>
+            </ul>
+          </div>
+
+          <div class="about-graphic">
+            <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=1200&q=80" alt="Doctors consulting" />
+          </div>
+        </div>
+      </section>
+
+      <section id="survey" class="section">
+        <div class="section-header">
+          <h2>Health survey</h2>
+          <p>Answer a few questions about your mood, stress, sleep, and general health so we can recommend the right doctor.</p>
+        </div>
+
+        <div class="survey-wrap">
+          <div class="survey-grid" id="surveyForm">
+            <div class="question">
+              <p>1. How would you describe your mental health today?</p>
+              <div class="options">
+                <label class="option"><input type="radio" name="mental" value="anxiety" /> Anxious or overwhelmed</label>
+                <label class="option"><input type="radio" name="mental" value="stress" /> Stressed or burned out</label>
+                <label class="option"><input type="radio" name="mental" value="depressed" /> Down or low mood</label>
+                <label class="option"><input type="radio" name="mental" value="balanced" /> Mostly balanced</label>
+              </div>
+            </div>
+
+            <div class="question">
+              <p>2. How is your general physical health?</p>
+              <div class="options">
+                <label class="option"><input type="radio" name="physical" value="poor" /> I feel physically unwell</label>
+                <label class="option"><input type="radio" name="physical" value="average" /> Okay but inconsistent</label>
+                <label class="option"><input type="radio" name="physical" value="good" /> Mostly healthy</label>
+                <label class="option"><input type="radio" name="physical" value="excellent" /> Very healthy</label>
+              </div>
+            </div>
+
+            <div class="question">
+              <p>3. Which issue is affecting you most?</p>
+              <div class="options">
+                <label class="option"><input type="radio" name="issue" value="sleep" /> Sleep problems</label>
+                <label class="option"><input type="radio" name="issue" value="focus" /> Concentration or focus</label>
+                <label class="option"><input type="radio" name="issue" value="energy" /> Low energy or fatigue</label>
+                <label class="option"><input type="radio" name="issue" value="relationships" /> Relationship or social stress</label>
+              </div>
+            </div>
+
+            <div class="question">
+              <p>4. What kind of support do you need most?</p>
+              <div class="options">
+                <label class="option"><input type="radio" name="support" value="therapy" /> Therapy or counseling</label>
+                <label class="option"><input type="radio" name="support" value="medication" /> Medication or psychiatric review</label>
+                <label class="option"><input type="radio" name="support" value="checkup" /> Routine health check-up</label>
+                <label class="option"><input type="radio" name="support" value="wellness" /> Preventive wellness plan</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="survey-actions">
+            <button class="primary-btn" type="button" id="surveySubmit">Find my doctor</button>
+          </div>
+        </div>
+
+        <div id="results" class="results" aria-live="polite">
+          <div class="section-header">
+            <h2>Recommended doctors</h2>
+            <p>Based on your survey responses, these specialists may be the best fit for your current needs.</p>
+          </div>
+
+          <div id="doctorResults" class="results-grid"></div>
+
+          <div id="scheduleSection" class="schedule" style="display:none;">
+            <h3 id="scheduleTitle">Doctor schedule</h3>
+            <div id="scheduleDays" class="days"></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="doctors" class="section">
+        <div class="section-header">
+          <h2>Available doctors</h2>
+          <p>Meet the care team behind our mental health and wellness support network.</p>
+        </div>
+
+        <div class="results-grid">
+          <div class="doctor-card-large">
+            <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=800&q=80" alt="Dr. Elena Park" />
+            <div class="content">
+              <h3>Dr. Elena Park</h3>
+              <p class="specialty">Psychiatrist</p>
+              <p class="match">Specializes in anxiety, mood disorders, and medication management.</p>
+              <span class="needs">Needs: Anxiety support</span>
+              <button type="button" onclick="showSchedule('Dr. Elena Park', ['Mon 9:00 AM', 'Tue 10:30 AM', 'Wed 1:00 PM', 'Thu 3:00 PM', 'Fri 9:30 AM'])">View schedule</button>
+            </div>
+          </div>
+
+          <div class="doctor-card-large">
+            <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&w=800&q=80" alt="Dr. Noah Brooks" />
+            <div class="content">
+              <h3>Dr. Noah Brooks</h3>
+              <p class="specialty">Family Physician</p>
+              <p class="match">Helps with general health concerns, stress, sleep, and early symptom assessment.</p>
+              <span class="needs">Needs: Wellness check</span>
+              <button type="button" onclick="showSchedule('Dr. Noah Brooks', ['Mon 8:30 AM', 'Tue 2:00 PM', 'Wed 9:15 AM', 'Thu 1:30 PM', 'Fri 11:00 AM'])">View schedule</button>
+            </div>
+          </div>
+
+          <div class="doctor-card-large">
+            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=80" alt="Dr. Aisha Ross" />
+            <div class="content">
+              <h3>Dr. Aisha Ross</h3>
+              <p class="specialty">Therapist</p>
+              <p class="match">Provides counseling for burnout, emotional stress, and life transitions.</p>
+              <span class="needs">Needs: Therapy sessions</span>
+              <button type="button" onclick="showSchedule('Dr. Aisha Ross', ['Mon 11:00 AM', 'Tue 4:00 PM', 'Wed 10:00 AM', 'Thu 2:30 PM', 'Fri 12:00 PM'])">View schedule</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="contact" class="section">
+        <div class="section-header">
+          <h2>Contact us</h2>
+          <p>Need assistance choosing a specialist? Our care team is here to help.</p>
+        </div>
+
+        <div class="contacts">
+          <div class="contact-card">
+            <h3>Call</h3>
+            <p>(555) 420-2817</p>
+          </div>
+
+          <div class="contact-card">
+            <h3>Email</h3>
+            <p>hello@mindcarematch.com</p>
+          </div>
+
+          <div class="contact-card">
+            <h3>Visit</h3>
+            <p>289 Wellness Avenue, Suite 205, Chicago, IL</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      const doctors = [
+        {
+          name: 'Dr. Elena Park',
+          specialty: 'Psychiatrist',
+          image: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=800&q=80',
+          match: 'Your answers suggest anxiety, stress, and emotional overwhelm. This specialist focuses on mood support and medication guidance.',
+          needs: 'Anxiety and mood support',
+          schedule: ['Mon 9:00 AM', 'Tue 10:30 AM', 'Wed 1:00 PM', 'Thu 3:00 PM', 'Fri 9:30 AM']
+        },
+        {
+          name: 'Dr. Noah Brooks',
+          specialty: 'Family Physician',
+          image: 'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&w=800&q=80',
+          match: 'Your general health concerns and stress patterns fit well with routine checkups and physical wellness evaluation.',
+          needs: 'General health and wellness check',
+          schedule: ['Mon 8:30 AM', 'Tue 2:00 PM', 'Wed 9:15 AM', 'Thu 1:30 PM', 'Fri 11:00 AM']
+        },
+        {
+          name: 'Dr. Aisha Ross',
+          specialty: 'Therapist',
+          image: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=80',
+          match: 'Your responses point to emotional exhaustion or burnout, which is often best supported with therapy and coping plans.',
+          needs: 'Therapy and coping support',
+          schedule: ['Mon 11:00 AM', 'Tue 4:00 PM', 'Wed 10:00 AM', 'Thu 2:30 PM', 'Fri 12:00 PM']
+        },
+        {
+          name: 'Dr. Daniel Kim',
+          specialty: 'Sleep Specialist',
+          image: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=800&q=80',
+          match: 'Your sleep and energy concerns suggest a specialist who can help improve rest quality and daily recovery.',
+          needs: 'Sleep and fatigue care',
+          schedule: ['Tue 8:00 AM', 'Wed 3:00 PM', 'Thu 9:45 AM', 'Fri 2:00 PM', 'Sat 10:00 AM']
+        },
+        {
+          name: 'Dr. Maria Lewis',
+          specialty: 'Counselor',
+          image: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=800&q=80',
+          match: 'A counseling approach may help with stress management, relationship challenges, and emotional resilience.',
+          needs: 'Stress and life transition support',
+          schedule: ['Mon 1:00 PM', 'Tue 11:30 AM', 'Wed 4:30 PM', 'Thu 8:00 AM', 'Fri 3:15 PM']
+        }
+      ];
+
+      const surveySubmit = document.getElementById('surveySubmit');
+      const doctorResults = document.getElementById('doctorResults');
+      const resultsSection = document.getElementById('results');
+      const scheduleSection = document.getElementById('scheduleSection');
+      const scheduleTitle = document.getElementById('scheduleTitle');
+      const scheduleDays = document.getElementById('scheduleDays');
+
+      surveySubmit.addEventListener('click', function () {
+        const selected = {
+          mental: document.querySelector('input[name="mental"]:checked')?.value,
+          physical: document.querySelector('input[name="physical"]:checked')?.value,
+          issue: document.querySelector('input[name="issue"]:checked')?.value,
+          support: document.querySelector('input[name="support"]:checked')?.value
+        };
+
+        if (!selected.mental || !selected.physical || !selected.issue || !selected.support) {
+          alert('Please answer all survey questions before viewing the doctor recommendations.');
+          return;
+        }
+
+        const rankedDoctors = [...doctors].sort((a, b) => {
+          const aScore = scoreDoctor(a, selected);
+          const bScore = scoreDoctor(b, selected);
+          return bScore - aScore;
+        });
+
+        doctorResults.innerHTML = rankedDoctors.slice(0, 3).map((doctor) => `
+          <div class="doctor-card-large">
+            <img src="${doctor.image}" alt="${doctor.name}" />
+            <div class="content">
+              <h3>${doctor.name}</h3>
+              <p class="specialty">${doctor.specialty}</p>
+              <p class="match">${doctor.match}</p>
+              <span class="needs">${doctor.needs}</span>
+              <button type="button" onclick="showSchedule('${doctor.name}', ${JSON.stringify(doctor.schedule)})">View schedule</button>
+            </div>
+          </div>
+        `).join('');
+
+        resultsSection.classList.add('show');
+        resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+
+      function scoreDoctor(doctor, answers) {
+        let score = 0;
+
+        if (answers.mental === 'anxiety' && doctor.specialty.includes('Psychiatrist')) score += 30;
+        if (answers.mental === 'stress' && doctor.specialty.includes('Therapist')) score += 25;
+        if (answers.mental === 'depressed' && doctor.specialty.includes('Psychiatrist')) score += 20;
+        if (answers.physical === 'poor' && doctor.specialty.includes('Family Physician')) score += 25;
+        if (answers.issue === 'sleep' && doctor.specialty.includes('Sleep Specialist')) score += 30;
+        if (answers.issue === 'focus' && doctor.specialty.includes('Psychiatrist')) score += 20;
+        if (answers.support === 'therapy' && doctor.specialty.includes('Therapist')) score += 25;
+        if (answers.support === 'medication' && doctor.specialty.includes('Psychiatrist')) score += 30;
+        if (answers.support === 'checkup' && doctor.specialty.includes('Family Physician')) score += 20;
+        if (answers.support === 'wellness' && doctor.specialty.includes('Counselor')) score += 15;
+
+        return score;
+      }
+
+      function showSchedule(name, times) {
+        scheduleTitle.textContent = `${name} schedule`;
+        scheduleDays.innerHTML = times.map((time, index) => `
+          <div class="day">
+            <strong>Day ${index + 1}</strong>
+            <span>${time}</span>
+          </div>
+        `).join('');
+        scheduleSection.style.display = 'block';
+        scheduleSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    </script>
+  </body>
+</html>
+
+              <label>What services do you need?</label>
+              <div class="check-grid">
+                <label class="checkbox-item"><input type="checkbox" name="services" value="Brand Strategy" /> Brand Strategy</label>
+                <label class="checkbox-item"><input type="checkbox" name="services" value="UX/UI Design" /> UX/UI Design</label>
+                <label class="checkbox-item"><input type="checkbox" name="services" value="Development" /> Development</label>
+                <label class="checkbox-item"><input type="checkbox" name="services" value="SEO" /> SEO</label>
+                <label class="checkbox-item"><input type="checkbox" name="services" value="Copywriting" /> Copywriting</label>
+                <label class="checkbox-item"><input type="checkbox" name="services" value="Marketing" /> Marketing</label>
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="timeline">Preferred timeline</label>
+              <input id="timeline" name="timeline" type="text" placeholder="e.g. 4-6 weeks" />
+            </div>
+
+            <div class="field">
+              <label for="message">Project details</label>
+              <textarea id="message" name="message" placeholder="Tell us about your goals, audience, and any specifics you want included..."></textarea>
+            </div>
+
+            <div class="submit-row">
+              <span class="hint">We usually reply within 1 business day.</span>
+              <button type="submit">Send inquiry</button>
+            </div>
+
+            <div id="successMessage" class="success" aria-live="polite">
+              Your form has been submitted successfully. Thanks for reaching out!
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const form = document.getElementById('projectForm');
+      const successMessage = document.getElementById('successMessage');
+
+      form.addEventListener('submit', function (event) {
+        event.preventDefault();
+        successMessage.classList.add('show');
+        form.reset();
+      });
+    </script>
+  </body>
+</html>
